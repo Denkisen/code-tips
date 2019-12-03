@@ -1,0 +1,66 @@
+procedure ResizeIm(Original, Output : TBitmap; W, H : Integer);
+var
+  buffer: TBitmap;
+begin
+  buffer := TBitmap.Create;
+  try
+    buffer.SetSize(W, H);
+    buffer.Canvas.StretchDraw(Rect(0, 0, W, H), Original);
+    Output.SetSize(W, H);
+    Output.Canvas.Draw(0, 0, buffer);
+  finally
+    buffer.Free;
+  end;
+end;
+
+procedure TForm1.FormResize(Sender: TObject);
+var
+  W, H : integer;
+begin
+  if (ScrollBox1.Width < OriginalImage.Width) or (ScrollBox1.Height < OriginalImage.Height) then
+  begin
+    if (OriginalImage.Height > ScrollBox1.Height) and (OriginalImage.Width > ScrollBox1.Width) then
+    begin
+      if ScrollBox1.Height > ScrollBox1.Width then
+      begin
+        H := ScrollBox1.Height - 10;
+        repeat
+          H := H - 10;
+          W := Round (h * (OriginalImage.Width / OriginalImage.Height));
+        until W < ScrollBox1.Width - 10;
+
+        ResizeIm(OriginalImage, Image1.Picture.Bitmap, W, H);
+      end
+      else
+      begin
+        W := ScrollBox1.Width - 10;
+        repeat
+          W := W - 10;
+          H := Round (w * (OriginalImage.Height / OriginalImage.Width));
+        until H < ScrollBox1.Height - 10;
+
+        ResizeIm(OriginalImage, Image1.Picture.Bitmap, W, H);
+      end;
+      exit;
+    end;
+    if (OriginalImage.Height > ScrollBox1.Height) then
+    begin
+      H := ScrollBox1.Height - 10;
+      W := Round (h * (OriginalImage.Width / OriginalImage.Height));
+      ResizeIm(OriginalImage, Image1.Picture.Bitmap, W, H);
+      exit;
+    end;
+    if (OriginalImage.Width > ScrollBox1.Width) then
+    begin
+      W := ScrollBox1.Width - 10;
+      H := Round (w * (OriginalImage.Height / OriginalImage.Width));
+      ResizeIm(OriginalImage, Image1.Picture.Bitmap, W, H);
+      exit;
+    end;
+  end
+  else
+  begin
+    Image1.Picture.Assign(OriginalImage);
+  end;
+
+end;
