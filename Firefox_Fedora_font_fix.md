@@ -8,7 +8,7 @@ Xft.rgba: rgb
 Xft.lcdfilter: lcddefault
 Xft.hintstyle: hintslight
 ```
-1.
+2.
 sudo gedit /etc/fonts/local.conf
 paste this:
 ```
