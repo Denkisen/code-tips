@@ -1,0 +1,31 @@
+function TMFDataSheetForm.CheckCollision(Owner : TWinControl; X, Y, W, H : longint) : boolean;
+
+var
+  Item                  : TControl;
+  InRect                : TRect;
+  I                     : integer;
+    
+begin
+result := false;
+if (X - 5 < 0) or (Y - 5 < 0) then
+  begin
+    result := true;
+    exit;
+  end;
+if (X + W + 5 > Owner.Width) or (Y + H + 5 > Owner.Height) then
+  begin
+    result := true;
+    exit;
+  end;
+for I := 0 to Owner.ControlCount - 1 do
+  begin
+  Item := Owner.Controls[I];
+  if Item.ClassType = TRSShape then
+    continue;
+  if ((CtlCur = nil) or (Item.Name <> CtlCur.Name)) and IntersectRect (InRect, Item.BoundsRect, Rect (X - 5, Y - 5, X + W + 5, Y + H + 5)) then
+    begin
+    result := true;
+    break;
+    end;
+  end;
+end;
