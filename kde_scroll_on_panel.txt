@@ -1,0 +1,18 @@
+ Quit plasmashell and then open your ~/.config/plasma-org.kde.plasma.desktop-appletsrc (create a backup of that file first!). Look through the available containments and see which one is your panel.
+
+My panel for example is:
+
+[Containments][1]
+...
+plugin=org.kde.panel
+...
+Take note of the number, 1 in this case. Now look for a
+
+[ActionPlugins][1]
+RightButton;NoModifier=org.kde.contextmenu
+with the correct number. If it doesn't exist, create it but it should really be in that file somewhere. Now add the following afterwards:
+
+wheel:Vertical;NoModifier=org.kde.switchdesktop
+Restart plasma, et voila, you can change virtual desktops by mouse wheeling your panel. Note that you might need to disable switching windows by wheel in task manager settings and that some applets (like volume) intercept wheel events. In theory you could add any containment action that is available in "Mouse Actions" in the wallpaper settings dialog.
+
+Edit: I just noticed that the task manager eats wheel events even if this option is disabled. :/ I'll have a look why that is.
